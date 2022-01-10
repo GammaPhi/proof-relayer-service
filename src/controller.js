@@ -31,7 +31,12 @@ async function withdraw(req, res) {
         res.json(400).json({error: 'Invalid denomination or token contract'})
         return
     }
-    const proofData = await getProofForNote(note, recipient, contractName);
+    const fee = config.fees[token]
+    if (!fee) {
+        res.json(400).json({error: 'Could not find a fee for this token contract'})
+        return
+    }
+    const proofData = await getProofForNote(note, recipient, fee, contractName);
     // submit transaction
     let returned = false
     sendTransaction(

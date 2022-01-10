@@ -45,10 +45,10 @@ async function setup() {
 }
 
 
-async function getProofForNote(note, recipient, contractName) {
+async function getProofForNote(note, recipient, fee, contractName) {
     const deposit = parseNote(note)
     const events = await loadEvents(contractName) //getTestEvents()
-    const proofData = await generateSnarkProof(deposit, recipient, events)
+    const proofData = await generateSnarkProof(deposit, recipient, fee, events)
     return proofData;
 }
 
@@ -158,7 +158,7 @@ const toHex = (number, length = 32) =>
  * @param deposit Deposit object
  * @param recipient Funds recipient
  */
- async function generateSnarkProof(deposit, recipient, events) {
+ async function generateSnarkProof(deposit, recipient, fee, events) {
     // Compute merkle proof of our commitment
     const { root, pathElements, pathIndices } = await generateMerkleProof(deposit, events)
   
@@ -169,7 +169,7 @@ const toHex = (number, length = 32) =>
       nullifierHash: deposit.nullifierHash,
       recipient: convertRHex(recipient),
       relayer: convertRHex(config.relayer),
-      fee: config.fee || 0,
+      fee: fee || 0,
       refund: 0,
   
       // Private snark inputs

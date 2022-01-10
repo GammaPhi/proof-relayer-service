@@ -61,7 +61,10 @@ module.exports = {
   privateKey: process.env.PRIVATE_KEY,
   masterNodeLink: lamden.network['hosts'][0],
   relayer: process.env.RELAYER_ADDRESS,
-  fee: process.env.WITHDRAW_FEE,
-  maxStamps: parseInt(process.env.MAX_STAMPS || '5000', 10),
+  fees: {
+    phi: process.env.WITHDRAW_FEE_PHI,
+    currency: process.env.WITHDRAW_FEE_CURRENCY,
+  },
+  maxStamps: parseInt(process.env.MAX_STAMPS || '5000', 10),  
   lamden: lamden,
 }

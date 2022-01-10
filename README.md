@@ -3,6 +3,7 @@
 ## Usage
 
 ```bash
+# Post a relay request
 POST /relay
 {
     "note": "e880dbfa6f10181ccac4728b9da4c138644a265004055699af8a5f381cd22c8ad8e031fc3c7ff574a477f462d031b26b773bc5f537a85893be4576c2f83a", 
@@ -10,6 +11,16 @@ POST /relay
     "token": "currency", 
     "recipient": "8b632e0598dafed9a5c09c22336bd0563dd9d0e25c72e443c3223faacc1a369d"
 }
+```
+
+```bash
+# Return {"status": "ok"} if this relayer is online and functioning
+GET /status
+```
+
+```bash
+# Return information about the fees of this relayer
+GET /fees
 ```
 
 See [this file](src/config.js) for each valid denomination/token pair.
@@ -64,7 +75,6 @@ sudo apt install -y python3-certbot-nginx
 sudo certbot --nginx -d $RELAYER_DNS
 
 # Final test
-
 curl https://$RELAYER_DNS/status
 # Should return {"status": "ok"}
 ```

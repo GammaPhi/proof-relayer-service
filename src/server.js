@@ -30,6 +30,7 @@ app.use((err, req, res, next) => {
 setup().then(()=>{
   app.get('/', status.status)
   app.get('/status', status.status)
+  app.get('/fees', status.fees)
   app.post('/relay', controller.withdraw)
   
   app.listen(port)
