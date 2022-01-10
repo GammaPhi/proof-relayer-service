@@ -1,0 +1,11 @@
+version: '2'
+
+# docker build -t proof-relayer -f Dockerfile .
+services:
+  server:
+    image: proof-relayer
+    restart: always
+    command: server
+    env_file: .env
+    ports:
+      - 5000:5000
