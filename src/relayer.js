@@ -3,7 +3,6 @@
 const fs = require('fs')
 const assert = require('assert')
 const { bigInt } = require('snarkjs')
-const crypto = require('crypto')
 const circomlib = require('circomlib')
 const merkleTree = require('fixed-merkle-tree')
 const buildGroth16 = require('websnark/src/groth16')
@@ -22,7 +21,7 @@ function convertRHex(r) {
 }
 
 
-/* TEST */
+/* TEST
 function getTestEvents() {
 
       
@@ -48,7 +47,7 @@ async function setup() {
 
 async function getProofForNote(note, recipient) {
     const deposit = parseNote(note)
-    const events = getTestEvents() // await loadEvents()
+    const events = await loadEvents() //getTestEvents()
     const proofData = await generateSnarkProof(deposit, recipient, events)
     return proofData;
 }
@@ -180,7 +179,6 @@ const toHex = (number, length = 32) =>
     }
   
     const proofData = await websnarkUtils.genWitnessAndProve(groth16, input, circuit, proving_key)
-
     return proofData
 }
   

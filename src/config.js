@@ -13,12 +13,16 @@ const mainnet = {
   },
   contracts: {
     currency: {
-      '100': 'con_',
-      '1000': 'con_',
-
+      100: 'con_lamnado_currency_100_v1',
+      1000: 'con_lamnado_currency_1000_v1',
+      10000: 'con_lamnado_currency_10000_v1',
+      100000: 'con_lamnado_currency_100000_v1',
     },
     phi: {
-      1000: 'con_something'
+      1000: 'con_lamnado_phi_1000_v1',
+      10000: 'con_lamnado_phi_10000_v1',
+      100000: 'con_lamnado_phi_100000_v1',
+      1000000: 'con_lamnado_phi_1000000_v1',
     }
   }
 }
@@ -35,7 +39,18 @@ const testnet = {
       "blockExplorer": "https://testnet.lamden.io"
   },
   contracts: {
-
+    currency: {
+      100: 'con_lamnado_currency_100_v1',
+      1000: 'con_lamnado_currency_1000_v1',
+      10000: 'con_lamnado_currency_10000_v1',
+      100000: 'con_lamnado_currency_100000_v1',
+    },
+    phi: {
+      1000: 'con_lamnado_phi_1000_v1',
+      10000: 'con_lamnado_phi_10000_v1',
+      100000: 'con_lamnado_phi_100000_v1',
+      1000000: 'con_lamnado_phi_1000000_v1',
+    }
   }
 } 
 
