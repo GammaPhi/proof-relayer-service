@@ -45,9 +45,9 @@ async function setup() {
 }
 
 
-async function getProofForNote(note, recipient) {
+async function getProofForNote(note, recipient, contractName) {
     const deposit = parseNote(note)
-    const events = await loadEvents() //getTestEvents()
+    const events = await loadEvents(contractName) //getTestEvents()
     const proofData = await generateSnarkProof(deposit, recipient, events)
     return proofData;
 }
@@ -55,11 +55,9 @@ async function getProofForNote(note, recipient) {
 
 async function loadEvents() {
     const events = []
-
-    let index = await readStateFromContract( 'next_index', 0)
-
-    for (let i = 0; i < index; i++) {
-        let event = await readStateFromContract('commitment_history', i, null)
+    let index = await readStateFromContract(contractName, 'next_index', [], 0)
+    for (let i = 1; i <= index; i++) {
+        let event = await readStateFromContract(contractName, 'commitment_history', [i.toString()], null)
         if (event !== null) {
             events.push({
                 commitmentHex: toHex(event),
@@ -67,15 +65,18 @@ async function loadEvents() {
             })
         }
     }
-
     return events
 }
 
 
 async function readStateFromContract(contract, variableName, keys, default_value) {
     try {
-        const res = await fetch(
-            `${config.masterNodeLink}/contracts/${contract}/${variableName}?key=${keys.join(':')}`, {
+        let url = `${config.masterNodeLink}/contracts/${contract}/${variableName}`
+        if (keys.length > 0) {
+            `${url}?key=${keys.join(':')}`
+        }
+        const res = await fetch({
+                url: url,
                 method: 'GET',
             },
         )

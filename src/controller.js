@@ -11,7 +11,27 @@ async function withdraw(req, res) {
     const token = req.body.token;
     const recipient = req.body.recipient;
     const contractName = config.lamden.contracts[token][denomination.toString()];
-    const proofData = await getProofForNote(note, recipient);
+    if (!token) {
+        res.json(400).json({error: 'No token provided'})        
+        return
+    }
+    if (!denomination) {
+        res.json(400).json({error: 'No denomination provided'})        
+        return
+    }
+    if (!note) {
+        res.json(400).json({error: 'No note provided'})        
+        return
+    }
+    if (!recipient) {
+        res.json(400).json({error: 'No recipient provided'})        
+        return
+    }
+    if (!contractName) {
+        res.json(400).json({error: 'Invalid denomination or token contract'})
+        return
+    }
+    const proofData = await getProofForNote(note, recipient, contractName);
     // submit transaction
     let returned = false
     sendTransaction(
