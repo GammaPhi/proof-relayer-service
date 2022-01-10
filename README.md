@@ -56,9 +56,6 @@ curl localhost:5000/status
 
 # Setup nginx
 sudo cp nginx/server.conf /etc/nginx/sites-available/default 
-# Update "server_name" to $RELAYER_DNS
-sudo nano /etc/nginx/sites-available/default
-# Restart nginx
 sudo service nginx restart
 
 # Setup SSL
