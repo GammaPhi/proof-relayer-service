@@ -50,15 +50,26 @@ sudo yarn
 sudo npm i pm2 -g
 pm2 start src/server.js
 
+# Local test
+curl localhost:5000/status
+# Should return {"status": "ok"}
+
 # Setup nginx
 sudo cp nginx/server.conf /etc/nginx/sites-available/default 
+# Update "server_name" to $RELAYER_DNS
+sudo nano /etc/nginx/sites-available/default
+# Restart nginx
 sudo service nginx restart
 
 # Setup SSL
 sudo add-apt-repository ppa:certbot/certbot
-add-apt-repository ppa:certbot/certbot
 sudo apt install -y python3-certbot-nginx
 sudo certbot --nginx -d $RELAYER_DNS
+
+# Final test
+
+curl https://$RELAYER_DNS/status
+# Should return {"status": "ok"}
 ```
 
 ## Local Development

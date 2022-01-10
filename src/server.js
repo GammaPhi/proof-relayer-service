@@ -28,6 +28,7 @@ app.use((err, req, res, next) => {
 })
 
 setup().then(()=>{
+  app.get('/', status.status)
   app.get('/status', status.status)
   app.post('/relay', controller.withdraw)
   
