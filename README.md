@@ -25,17 +25,15 @@ GET /fees
 
 See [this file](src/config.js) for each valid denomination/token pair.
 
-## Deploy to a VM
 
-Ubuntu 18
+## Deploy on Ubuntu 18
+
+### Initial Setup
 
 ```bash
-# Change this first line
-RELAYER_DNS=relayer.gammaphi.io
-
-# Install apt dependencies
+# Install git
 sudo apt update
-sudo apt install -y git nginx
+sudo apt install -y git
 
 # Clone relayer repo
 git clone https://github.com/GammaPhi/proof-relayer-service.git
@@ -46,6 +44,54 @@ cp .env.example .env
 
 # Update environment variables in .env file
 nano .env
+```
+
+### Docker Compose
+
+```bash
+# Install docker
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+sudo apt update
+apt-cache policy docker-ce
+sudo apt install docker-ce
+
+# Install docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+# Build docker image
+docker build -t proof-relayer -f Dockerfile .
+
+# Start service
+docker-compose up -d
+```
+
+### Install Directly
+
+```bash
+# Install git
+sudo apt update
+sudo apt install -y git
+
+# Clone relayer repo
+git clone https://github.com/GammaPhi/proof-relayer-service.git
+cd lamden-relayer-service/
+
+# Setup environment
+cp .env.example .env
+
+# Update environment variables in .env file
+nano .env
+
+# Install mongodb
+wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/5.0 multiverse" | sudo
+tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
 
 # Install node
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
@@ -64,6 +110,18 @@ pm2 start src/server.js
 # Local test
 curl localhost:5000/status
 # Should return {"status": "ok"}
+```
+
+### Setup SSL
+
+```
+# Create an A record pointing to the VM's IP address
+# Change this first line accordingly
+RELAYER_DNS=relayer.gammaphi.io
+
+# Install nginx
+sudo apt update
+sudo apt install -y nginx
 
 # Setup nginx
 sudo cp nginx/server.conf /etc/nginx/sites-available/default 

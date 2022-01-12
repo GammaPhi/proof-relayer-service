@@ -7,6 +7,7 @@ const circomlib = require('circomlib')
 const merkleTree = require('fixed-merkle-tree')
 const buildGroth16 = require('websnark/src/groth16')
 const websnarkUtils = require('websnark/src/utils')
+const { saveEventsToDB, loadEventsFromDB } = require('./mongo')
 const config = require('./config')
 
 
@@ -53,17 +54,26 @@ async function getProofForNote(note, recipient, fee, contractName) {
 }
 
 
-async function loadEvents() {
-    const events = []
+async function loadEvents(contractName) {
+    const events = await loadEventsFromDB(contractName)
+    const leafIndices = new Set(events.map((event)=>event.leafIndex))
     let index = await readStateFromContract(contractName, 'next_index', [], 0)
+    const eventsToSave = []
     for (let i = 1; i <= index; i++) {
-        let event = await readStateFromContract(contractName, 'commitment_history', [i.toString()], null)
-        if (event !== null) {
-            events.push({
-                commitmentHex: toHex(event),
-                leafIndex: i,
-            })
+        if (!leafIndices.has(i)) {
+            let event = await readStateFromContract(contractName, 'commitment_history', [i.toString()], null)
+            if (event !== null) {
+                let e = {
+                    commitmentHex: toHex(event),
+                    leafIndex: i,
+                }
+                events.push(e)
+                eventsToSave.push(e)
+            }
         }
+    }
+    if (eventsToSave.length > 0) {
+        saveEventsToDB(contractName, eventsToSave)
     }
     return events
 }

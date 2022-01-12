@@ -21,6 +21,7 @@
       "lamden-js": "^1.6.1",
       "uuid": "^8.3.0",
       "web3": "^1.3.0",
+      "mongodb": "^4.1.1",
       "web3-core-promievent": "^1.3.0",
       "web3-utils": "^1.2.2",
       "snarkjs": "git+https://github.com/tornadocash/snarkjs.git#869181cfaf7526fe8972073d31655493a04326d5",

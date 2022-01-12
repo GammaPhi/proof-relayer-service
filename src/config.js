@@ -67,4 +67,5 @@ module.exports = {
   },
   maxStamps: parseInt(process.env.MAX_STAMPS || '5000', 10),  
   lamden: lamden,
+  mongoUri: process.env.MONGO_URI
 }
