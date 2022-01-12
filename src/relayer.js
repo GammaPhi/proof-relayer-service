@@ -23,9 +23,7 @@ function convertRHex(r) {
 
 
 /* TEST
-function getTestEvents() {
-
-      
+async function getTestEvents() {
     const r1Hex = '2cd21c385f8aaf9956050450264a6438c1a49d8b72c4ca1c18106ffadb80e8'
     const r2Hex = '3af8c27645be9358a837f5c53b776bb231d062f477a474f57f3cfc31e0d88a'
     const r3Hex = '3af8c271423e93586837f5c53b776bb231d062f477a474f57f3cfc24e8d776'
@@ -34,6 +32,7 @@ function getTestEvents() {
     const r3 = convertRHex(r3Hex)
     const deposit = createDeposit(r1, r2);
     const events = [{leafIndex: 0, commitmentHex: toHex(deposit.commitment)}]  
+    await saveEventsToDB('con_lamnado_phi_1000_v1', events)
     return events;
 }
 /* END TEST */
@@ -73,7 +72,7 @@ async function loadEvents(contractName) {
         }
     }
     if (eventsToSave.length > 0) {
-        saveEventsToDB(contractName, eventsToSave)
+        await saveEventsToDB(contractName, eventsToSave)
     }
     return events
 }

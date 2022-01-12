@@ -29,7 +29,10 @@ async function saveEventsToDB(contract, events) {
 
 async function loadEventsFromDB(contract) {
     const events = [];
-    const callback = events.push
+    const callback = (doc) =>{
+        console.log(doc)
+        events.push(doc)
+    } 
     await findMany(
         DATABASE, contract, {}, callback
     )

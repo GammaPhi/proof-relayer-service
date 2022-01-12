@@ -36,37 +36,41 @@ async function withdraw(req, res) {
         res.json(400).json({error: 'Could not find a fee for this token contract'})
         return
     }
-    const proofData = await getProofForNote(note, recipient, fee, contractName);
-    // submit transaction
-    let returned = false
-    sendTransaction(
-        contractName,
-        'withdraw',
-        {
-            a: proofData.pi_a,
-            b: proofData.pi_b,
-            c: proofData.pi_c,
-            root: proofData.publicSignals[0],
-            nullifier_hash: proofData.publicSignals[1],
-            recipient: recipient,
-            relayer: config.relayer,
-            fee: proofData.publicSignals[4],
-            refund: proofData.publicSignals[5],
-        },
-        config.maxStamps,
-        (results) => {
-            if (returned) {
-                return
+    try {
+        const proofData = await getProofForNote(note, recipient, fee, contractName);
+        // submit transaction
+        let returned = false
+        sendTransaction(
+            contractName,
+            'withdraw',
+            {
+                a: proofData.pi_a,
+                b: proofData.pi_b,
+                c: proofData.pi_c,
+                root: proofData.publicSignals[0],
+                nullifier_hash: proofData.publicSignals[1],
+                recipient: recipient,
+                relayer: config.relayer,
+                fee: proofData.publicSignals[4],
+                refund: proofData.publicSignals[5],
+            },
+            config.maxStamps,
+            (results) => {
+                if (returned) {
+                    return
+                }
+                returned = true
+                console.log(results)
+                if (results.errors) {
+                    res.status(400).json({error: results.errors})
+                } else {
+                    res.json(results)
+                }
             }
-            returned = true
-            console.log(results)
-            if (results.errors) {
-                res.status(400).json({error: results.errors})
-            } else {
-                res.json(results)
-            }
-        }
-    )
+        )
+    } catch(e) {
+        res.status(500).json({error: e.toString()})
+    }
 }
 
 

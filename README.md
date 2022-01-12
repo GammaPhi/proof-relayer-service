@@ -63,10 +63,14 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 # Build docker image
-docker build -t proof-relayer -f Dockerfile .
+sudo docker build -t proof-relayer -f Dockerfile .
 
 # Start service
-docker-compose up -d
+sudo docker-compose up -d
+
+# Local test
+curl localhost:5000/status
+# Should return {"status": "ok"}
 ```
 
 ### Install Directly
