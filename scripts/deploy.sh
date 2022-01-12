@@ -10,6 +10,10 @@ gcloud compute ssh $INSTANCE_NAME --command="$COMMAND" --zone=$INSTANCE_ZONE
 COMMAND="cd proof-relayer-service/ && sudo ./scripts/build_image.sh"
 gcloud compute ssh $INSTANCE_NAME --command="$COMMAND" --zone=$INSTANCE_ZONE
 
+# Copy env
+COMMAND="cd proof-relayer-service/ && sudo ./scripts/build_image.sh"
+gcloud compute copy-files .env $INSTANCE_NAME:~/proof-relayer-service/.env --zone=$INSTANCE_ZONE
+
 # Restart service
-COMMAND="cd proof-relayer-service/ && sudo docker-compose stop server && sudo docker-compose rm -f -v server && sudo docker-compose create --force-recreate server && sudo docker-compose start server"
+COMMAND="cd proof-relayer-service/ && sudo docker-compose down && sudo docker-compose up -d"
 gcloud compute ssh $INSTANCE_NAME --command="$COMMAND" --zone=$INSTANCE_ZONE
