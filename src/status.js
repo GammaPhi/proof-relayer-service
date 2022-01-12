@@ -12,5 +12,5 @@ async function fees(req, res) {
 
 module.exports = {
     status: status,
-    fees: fees,
+    fees: config.fees,
 }
