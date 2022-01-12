@@ -9,8 +9,6 @@ const { setup } = require('./relayer')
 const app = express()
 app.use(express.json())
 
-setup
-
 // Add CORS headers
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
@@ -39,5 +37,4 @@ setup().then(()=>{
 }).catch((err)=>{
   console.log(err)
   process.exit(1)
-
 })
