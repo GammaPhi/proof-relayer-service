@@ -1,5 +1,14 @@
 # Lamden Proof Relayer Service
 
+** WIP: DO NOT USE **
+
+## Purpose
+
+In order to protect the privacy of transactions on [Lamnado](https://lamnado.cash), we need to submit withdrawal requests to a relayer service. This is because a withdrawal requests require stamps, which means the address of the signer must have enough TAU to execute the transaction. This means that the withdrawing address must be funded by another address, which is likely linked to an identity. However, if the relayer service submits the withdrawal request on the user's behalf, the address of the relayer will sign and send the transaction, and so the withdrawal remains anonymous. 
+
+This repository provides an API to do just that. In exchange for providing this service (and to reimburse for stamp costs), a portion of the withdrawal amount will be deposited to the relayer's address upon a successful withdrawal. The fees are configured by each relayer in [config.js](src/config.js).
+
+
 ## Usage
 
 ```bash
@@ -23,7 +32,7 @@ GET /status
 GET /fees
 ```
 
-See [this file](src/config.js) for each valid denomination/token pair.
+See [config.js](src/config.js) for each valid denomination/token pair.
 
 
 ## Deploy on Ubuntu 18
@@ -46,7 +55,7 @@ cp .env.example .env
 nano .env
 ```
 
-### Docker Compose
+### Docker Compose (recommended)
 
 ```bash
 # Install docker
