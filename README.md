@@ -127,7 +127,7 @@ curl localhost:5000/status
 
 ### Setup SSL
 
-```
+```bash
 # Create an A record pointing to the VM's IP address
 # Change this first line accordingly
 RELAYER_DNS=relayer.gammaphi.io
