@@ -52,8 +52,10 @@ async function getProofForNote(note, recipient, fee, contractName) {
     return proofData;
 }
 
-async function computePedersenHash(hex) {
+function computePedersenHash(hex) {
+    console.log({hex: hex})
     const data = Buffer.from(hex, 'hex')
+    console.log({data: data})
     return toHex(pedersenHash(data))
 }
 

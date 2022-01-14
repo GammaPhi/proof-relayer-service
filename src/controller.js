@@ -76,6 +76,7 @@ async function withdraw(req, res) {
 async function pedersen(req, res) {
     const data = req.body.data
     const hash = computePedersenHash(data)
+    console.log({hash: hash})
     return res.json({ hash: hash })
 }
 
