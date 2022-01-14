@@ -1,5 +1,5 @@
 
-const { getProofForNote } = require('./relayer')
+const { getProofForNote, computePedersenHash } = require('./relayer')
 const { sendTransaction } = require('./wallet')
 const config = require('./config');
 
@@ -73,7 +73,13 @@ async function withdraw(req, res) {
     }
 }
 
+async function pedersen(req, res) {
+    const data = req.body.data
+    const hash = computePedersenHash(data)
+    return res.json({ hash: hash })
+}
 
 module.exports = {
-    withdraw: withdraw
+    withdraw: withdraw,
+    pedersen: pedersen
 }

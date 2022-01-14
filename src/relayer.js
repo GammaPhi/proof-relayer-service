@@ -52,6 +52,11 @@ async function getProofForNote(note, recipient, fee, contractName) {
     return proofData;
 }
 
+async function computePedersenHash(hex) {
+    const data = Buffer.from(hex, 'hex')
+    return toHex(pedersenHash(data))
+}
+
 
 async function loadEvents(contractName) {
     const events = await loadEventsFromDB(contractName)
@@ -195,5 +200,6 @@ const toHex = (number, length = 32) =>
 
 module.exports = {
     setup: setup,
-    getProofForNote: getProofForNote
+    getProofForNote: getProofForNote,
+    computePedersenHash: computePedersenHash
 }

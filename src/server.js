@@ -29,6 +29,7 @@ setup().then(()=>{
   app.get('/', status.status)
   app.get('/status', status.status)
   app.get('/fees', status.fees)
+  app.get('/hash', controller.pedersen)
   app.post('/relay', controller.withdraw)
   
   app.listen(port)
