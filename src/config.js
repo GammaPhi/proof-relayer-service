@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const mainnet = {
-  apiLink: "https://mainnet.lamden.io/api",
+  apiLink: "https://blocks.gammaphi.io",
   addressExplorer: "https://mainnet.lamden.io/addresses",
   network: {
       "name": "Lamden Mainnet", 
@@ -59,7 +59,7 @@ const lamden = process.env.NETWORK === 'mainnet' ? mainnet : testnet
 module.exports = {
   port: process.env.PORT || 5000,
   privateKey: process.env.PRIVATE_KEY,
-  masterNodeLink: lamden.network['hosts'][0],
+  apiLink: lamden.apiLink,
   relayer: process.env.RELAYER_ADDRESS,
   fees: {
     phi: process.env.WITHDRAW_FEE_PHI,
